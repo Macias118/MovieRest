@@ -10,11 +10,13 @@ class MovieView(APIView):
     def post(self, request, format=None):
         movie_title = request.POST['title']
         empty = {'result': 'succcess'}
-        Movie(total_comments=2, rank=34, details='det').save()
         # send request to api
         api_url = 'http://www.omdbapi.com/?apikey=860f6403&t=' + movie_title
         r = requests.get(url=api_url)
-        print(r.json()) 
+        print(r.json())
+
+        Movie(total_comments=2, rank=34, details=r.json()).save()
+        
         return Response(empty, status=status.HTTP_201_CREATED)
 
     def get(self, request):
