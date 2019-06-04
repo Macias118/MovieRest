@@ -1,9 +1,11 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import MovieView
+from .views import CommentView
 
 urlpatterns = {
-    url(r'^movies/$', MovieView.as_view(), name='create')
+    url(r'^movies/$', MovieView.as_view(), name='create'),
+    url(r'^comments/$', CommentView.as_view(), name='create')
 }
 
 

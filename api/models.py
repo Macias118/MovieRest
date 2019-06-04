@@ -1,14 +1,22 @@
 from django.db import models
 
+class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    comment_text = models.TextField()
+
+    def __repr__(self):
+        return str({
+            'comment_id': self.comment_id,
+            'comment_text': self.comment_text})
+
+
 class Movie(models.Model):
     movie_id = models.AutoField(primary_key=True)
-    total_comments = models.IntegerField()
-    rank = models.IntegerField()
+    comments = models.ManyToManyField(Comment)
     details = models.TextField()
 
     def __repr__(self):
         return str({
             'id': self.movie_id,
-            'rank': self.rank,
-            'total_comments': self.total_comments,
+            'comments': self.comments,
             'details': self.details})
