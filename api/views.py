@@ -1,38 +1,20 @@
 import requests
+from rest_framework import generics
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Movie
+from .serializers import MovieSerializer
+import json
 
 
-class MovieView(APIView):
-    def post(self, request, format=None):
-        movie_title = request.POST['title']
-        empty = {'result': 'succcess'}
-        # send request to api
-        api_url = 'http://www.omdbapi.com/?apikey=860f6403&t=' + movie_title
-        r = requests.get(url=api_url)
-        print(r.json())
+class MovieView(generics.ListCreateAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
 
-        Movie(total_comments=2, rank=34, details=r.json()).save()
-        
-        return Response(empty, status=status.HTTP_201_CREATED)
-
-    def get(self, request):
-        m = Movie.objects.all()
-        print(m)
-        return Response({'great': 'awesome get'}, status=status.HTTP_200_OK)
-
-# class SurveyAPIView(APIView):
-
-#     def post(self, request, format=None):
-#         serializer = SurveySerializer(request.data)
-#         if serializer.is_valid():
-#             instance = serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#     else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# and in urls.py add a new line like:
+    def perform_create(self, serializer):
+        print('serializer => {}\n {}'. format(serializer, self.request.data['title']))
+        # title = serializer
+        serializer.save(title=self.request.data['title'])
 

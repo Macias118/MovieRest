@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import MovieView
 
 urlpatterns = {
-    url(r'^movies/$', MovieView.as_view(), name='create-movie')    
+    url(r'^movies/$', MovieView.as_view(), name='create')
 }
 
 
